@@ -5,6 +5,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.widget.RemoteViews;
 
+import java.util.TimeZone;
+
 /**
  * Implementation of App Widget functionality.
  */
@@ -15,7 +17,17 @@ public class MainWidget extends AppWidgetProvider {
 
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
+        remoteViews.setTextViewText(R.id.tvCurrentTime, "Your text");
+        //time
+
+        //timezone
+        String time="";
+        TimeZone tz = TimeZone.getDefault();
+        time=tz.getID()+" "+tz.getDisplayName(false, TimeZone.SHORT);
+        remoteViews.setTextViewText(R.id.timeZone, time);
+        //alarm
+
         //views.setTextViewText();
         // Instruct the widget manager to update the widget
         //appWidgetManager.updateAppWidget(appWidgetId, views);
