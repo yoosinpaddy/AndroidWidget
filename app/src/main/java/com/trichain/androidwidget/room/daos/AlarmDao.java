@@ -16,6 +16,9 @@ public interface AlarmDao {
     @Query("SELECT * FROM AlarmTable")
     List<AlarmTable> getAllpeople();
 
+    @Query("SELECT * FROM AlarmTable order by time DESC LIMIT 1")
+    AlarmTable getLatestAlarm();
+
     @Query("SELECT COUNT(id) FROM AlarmTable WHERE 1")
     int getNumberofEventPeople();
 

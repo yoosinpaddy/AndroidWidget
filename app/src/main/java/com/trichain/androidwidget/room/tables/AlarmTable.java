@@ -12,7 +12,7 @@ public class AlarmTable implements Serializable {
     private int id;
 
     @ColumnInfo(name = "time")
-    private String time;
+    private long time;
 
     //getters and setters
     public int getId() {
@@ -23,12 +23,11 @@ public class AlarmTable implements Serializable {
         this.id = id;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
-
 }
