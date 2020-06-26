@@ -14,10 +14,7 @@ import android.widget.RemoteViews;
 
 import com.trichain.androidwidget.room.config.DatabaseClient;
 import com.trichain.androidwidget.room.tables.AlarmTable;
-import com.trichain.androidwidget.util.Util;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -46,7 +43,7 @@ public class MainWidget extends AppWidgetProvider {
         appWidgetId1=appWidgetId;
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
+        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget2);
         setupBlue(context);
         setupGreen(context);
         setupUpcomingEvents(context);
