@@ -16,6 +16,7 @@ import com.trichain.androidwidget.room.config.DatabaseClient;
 import com.trichain.androidwidget.room.tables.AlarmTable;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import static com.trichain.androidwidget.util.Util.doubleToDate;
@@ -24,6 +25,7 @@ import static com.trichain.androidwidget.util.Util.getCustomDateYMD;
 import static com.trichain.androidwidget.util.Util.getFormatedDateHHMM;
 import static com.trichain.androidwidget.util.Util.longToDate;
 import static com.trichain.androidwidget.util.Util.readCalendarEvent;
+import static com.trichain.androidwidget.util.Util.readCalendarRecentEvent;
 
 /**
  * Implementation of App Widget functionality.
@@ -146,6 +148,23 @@ public class MainWidget extends AppWidgetProvider {
 
         //Upcoming
         remoteViews.setTextViewText(R.id.todayEvents, readCalendarEvent(context));
+//        new Handler().postDelayed(n,1000);
+
+
+    }
+    static void setupUpcomingAppointments(Context context){
+
+        //Upcoming
+        List<EventModel> a= readCalendarRecentEvent(context);
+        if (a.size()>=1){
+            remoteViews.setTextViewText(R.id.startUpcoming, a.get(0).getStartD());
+            remoteViews.setTextViewText(R.id.endUpcoming, a.get(0).getEndD());
+            remoteViews.setTextViewText(R.id.nameUpcomming, a.get(0).getName());
+        }else {
+            remoteViews.setTextViewText(R.id.startUpcoming, "not set");
+            remoteViews.setTextViewText(R.id.endUpcoming, "not set");
+            remoteViews.setTextViewText(R.id.nameUpcomming, "no upcoming appointment");
+        }
 //        new Handler().postDelayed(n,1000);
 
 
