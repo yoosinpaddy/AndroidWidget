@@ -1,0 +1,362 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="@dimen/widget_margin">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/g1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toTopOf="@id/g2"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/g2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toTopOf="@id/g3"
+        app:layout_constraintTop_toBottomOf="@id/g1">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/g3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/g2">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/m1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintEnd_toStartOf="@id/m2"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/m2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintEnd_toStartOf="@id/m3"
+        app:layout_constraintStart_toEndOf="@+id/m1">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/m3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/m2">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLeft"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/g1"
+        app:layout_constraintEnd_toStartOf="@+id/m2"
+        app:layout_constraintStart_toStartOf="@+id/g1"
+        app:layout_constraintTop_toTopOf="@+id/m1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Paul Ascension Day Teooo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topRight"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#B8C2FF"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/g1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/topLeft"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvCurrentTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/product_sans_regular"
+            android:gravity="left"
+            android:text="14:36"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/timeZone"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/timeZone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:gravity="left"
+            android:text="europe/berlin gmt+1"
+            android:textColor="@android:color/white"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toTopOf="@id/tvAlarm"
+            app:layout_constraintTop_toBottomOf="@id/tvCurrentTime" />
+
+        <TextView
+            android:id="@+id/tvAlarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/product_sans_regular"
+            android:gravity="left"
+            android:text="alarm 07:36"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeZone" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomLeft"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#C9FFCC"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/m1"
+        app:layout_constraintEnd_toEndOf="@+id/m1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLeft">
+
+        <com.trichain.androidwidget.views.VerticalTextView
+            android:id="@+id/dateGreenTv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="bottom|center_horizontal"
+            android:lines="1"
+            android:text="Tile 1"
+            android:textColor="@android:color/black"
+            android:textSize="38sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/weekGreen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.trichain.androidwidget.views.VerticalTextView
+            android:id="@+id/weekGreen"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center_horizontal"
+            android:lines="1"
+            android:text="Tile Tile 3 Tile 3"
+            android:textColor="@android:color/black"
+            android:textSize="38sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dateGreenTv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/middleRight"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FFB4CE"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/g2"
+        app:layout_constraintEnd_toEndOf="@+id/g2"
+        app:layout_constraintStart_toEndOf="@+id/m1"
+        app:layout_constraintTop_toBottomOf="@+id/topRight">
+
+        <com.trichain.androidwidget.views.VerticalTextView
+            android:id="@+id/tvVert"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center"
+            android:text="Tile 4"
+            android:textColor="@android:color/black"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvtime1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="16 30"
+            android:textSize="21sp"
+            app:layout_constraintStart_toEndOf="@id/tvVert"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvtime2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="1630"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvtime1"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/coffee"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans_bold"
+            android:gravity="center"
+            android:text="Coffeebreak"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/tvAddr"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvVert"
+            app:layout_constraintTop_toBottomOf="@id/tvtime1" />
+
+        <TextView
+            android:id="@+id/tvAddr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans_regular"
+            android:gravity="center"
+            android:text="Starbucks, 17 Ocean Blvd"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/coffee" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomCenter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FBD7A0"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/m2"
+        app:layout_constraintStart_toEndOf="@+id/m1"
+        app:layout_constraintTop_toBottomOf="@+id/g2">
+
+        <com.trichain.androidwidget.views.VerticalTextView
+            android:id="@+id/tvAppt2Date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center"
+            android:text="05-15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvAppt2Time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="21 40"
+            app:layout_constraintBottom_toTopOf="@id/tvAppt2Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvAppt2Date"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAppt2Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans_bold"
+            android:gravity="center"
+            android:text="Dinner"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvAppt2Date"
+            app:layout_constraintTop_toBottomOf="@id/tvAppt2Time" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomEnd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#C1A4F4"
+        android:padding="@dimen/widget_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/m3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/m2"
+        app:layout_constraintTop_toBottomOf="@+id/g2">
+
+        <com.trichain.androidwidget.views.VerticalTextView
+            android:id="@+id/tvAppt3Date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center"
+            android:text="05-15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvAppt3Time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="21 40"
+            app:layout_constraintBottom_toTopOf="@id/tvAppt3Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvAppt3Date"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAppt3Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans_bold"
+            android:gravity="center"
+            android:text="Dinner"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvAppt3Date"
+            app:layout_constraintTop_toBottomOf="@id/tvAppt3Time" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
