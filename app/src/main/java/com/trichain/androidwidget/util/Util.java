@@ -110,12 +110,28 @@ public class Util {
                 SpannableString start= new SpannableString(startDates.get(i));
                 SpannableString stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
                 SpannableString name= new SpannableString(nameOfEvent.get(i));
-                events.add(new EventModel(start,stop,name));
+                if (start!=null){
+                    start=makeSpanDate(start);
+                }
+                if (stop!=null){
+                    stop=makeSpanDate(stop);
+                }
+                if(name.toString().toLowerCase().contains("appointment")){
+                    events.add(new EventModel(start,stop,name));
+                }
             }
             Log.e(TAG, "readCalendarEvent: date"+startDates.get(i) );
             Log.e(TAG, "readCalendarEvent: name"+CNames[i]);
         }
         return events;
+    }
+    public static SpannableString makeSpanDate(SpannableString a) {
+        SpannableString ss1 = a;
+        if (a.toString().length()>3){
+            ss1.setSpan(new RelativeSizeSpan(2f), 0, 2, 0); // set size
+            return ss1;
+        }else
+            return new SpannableString("");
     }
     public static SpannableString getCustomDateYMD() {
         Calendar c = Calendar.getInstance();
