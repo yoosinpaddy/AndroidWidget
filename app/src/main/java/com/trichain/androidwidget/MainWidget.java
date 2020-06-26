@@ -26,6 +26,7 @@ import static com.trichain.androidwidget.util.Util.getCurrentTimeHHMM;
 import static com.trichain.androidwidget.util.Util.getCustomDateYMD;
 import static com.trichain.androidwidget.util.Util.getFormatedDateHHMM;
 import static com.trichain.androidwidget.util.Util.longToDate;
+import static com.trichain.androidwidget.util.Util.readCalendarEvent;
 
 /**
  * Implementation of App Widget functionality.
@@ -46,6 +47,7 @@ public class MainWidget extends AppWidgetProvider {
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
         setupBlue(context);
         setupGreen(context);
+        setupUpcomingEvents(context);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
@@ -140,6 +142,15 @@ public class MainWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.tvAlarm, "alarm "+alarmt);
         }
 
+
+
+    }
+    static void setupUpcomingEvents(Context context){
+
+        //Upcoming
+        readCalendarEvent(context);
+//        remoteViews.setTextViewText(R.id.tvCurrentTime, getCurrentTimeHHMM());
+//        new Handler().postDelayed(n,1000);
 
 
     }

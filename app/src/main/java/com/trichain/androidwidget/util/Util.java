@@ -1,7 +1,10 @@
 package com.trichain.androidwidget.util;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -15,13 +18,47 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Util {
 
     private static final String TAG = "Util";
+    public static ArrayList<String> nameOfEvent = new ArrayList<String>();
+    public static ArrayList<String> startDates = new ArrayList<String>();
+    public static ArrayList<String> endDates = new ArrayList<String>();
+    public static ArrayList<String> descriptions = new ArrayList<String>();
 
+    public static ArrayList<String> readCalendarEvent(Context context) {
+        Cursor cursor = context.getContentResolver()
+                .query(
+                        Uri.parse("content://com.android.calendar/events"),
+                        new String[] { "calendar_id", "title", "description",
+                                "dtstart", "dtend", "eventLocation" }, null,
+                        null, null);
+        cursor.moveToFirst();
+        // fetching calendars name
+        String CNames[] = new String[cursor.getCount()];
+
+        // fetching calendars id
+        nameOfEvent.clear();
+        startDates.clear();
+        endDates.clear();
+        descriptions.clear();
+        for (int i = 0; i < CNames.length; i++) {
+
+            nameOfEvent.add(cursor.getString(1));
+            startDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))));
+            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+            descriptions.add(cursor.getString(2));
+            CNames[i] = cursor.getString(1);
+            cursor.moveToNext();
+            Log.e(TAG, "readCalendarEvent: date"+getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))) );
+            Log.e(TAG, "readCalendarEvent: name"+cursor.getString(1) );
+        }
+        return nameOfEvent;
+    }
     public static SpannableString getCustomDateYMD() {
         Calendar c = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -52,6 +89,11 @@ public class Util {
     public static double getCurrentDayofWeek(Date d) {
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("HH:mm");
         return Double.parseDouble(format.format(d));
+    }
+
+    public static String getFormatedDateHHMMl(long l) {
+        @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("HH:mm");
+        return format.format(new Date(l));
     }
 
     public static double getFormatedDateHHMM(Date d) {
