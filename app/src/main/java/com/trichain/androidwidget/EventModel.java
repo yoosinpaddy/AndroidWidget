@@ -5,9 +5,9 @@ import android.text.SpannableString;
 public class EventModel {
     SpannableString startD;
     SpannableString endD;
+    SpannableString name;
     SpannableString date;
     SpannableString location;
-    SpannableString name;
 
     public EventModel(SpannableString startD, SpannableString endD, SpannableString name) {
         this.startD = startD;
@@ -15,12 +15,12 @@ public class EventModel {
         this.name = name;
     }
 
-    public EventModel(SpannableString startD, SpannableString endD, SpannableString date, SpannableString location, SpannableString name) {
+    public EventModel(SpannableString startD, SpannableString endD, SpannableString name, SpannableString date, SpannableString location) {
         this.startD = startD;
         this.endD = endD;
+        this.name = name;
         this.date = date;
         this.location = location;
-        this.name = name;
     }
 
     public SpannableString getStartD() {
