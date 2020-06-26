@@ -148,8 +148,7 @@ public class MainWidget extends AppWidgetProvider {
     static void setupUpcomingEvents(Context context){
 
         //Upcoming
-        readCalendarEvent(context);
-//        remoteViews.setTextViewText(R.id.tvCurrentTime, getCurrentTimeHHMM());
+        remoteViews.setTextViewText(R.id.todayEvents, readCalendarEvent(context));
 //        new Handler().postDelayed(n,1000);
 
 

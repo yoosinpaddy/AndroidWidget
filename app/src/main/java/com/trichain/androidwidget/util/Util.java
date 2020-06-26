@@ -27,10 +27,11 @@ public class Util {
     private static final String TAG = "Util";
     public static ArrayList<String> nameOfEvent = new ArrayList<String>();
     public static ArrayList<String> startDates = new ArrayList<String>();
+    public static ArrayList<String> startDatesl = new ArrayList<String>();
     public static ArrayList<String> endDates = new ArrayList<String>();
     public static ArrayList<String> descriptions = new ArrayList<String>();
 
-    public static ArrayList<String> readCalendarEvent(Context context) {
+    public static String readCalendarEvent(Context context) {
         Cursor cursor = context.getContentResolver()
                 .query(
                         Uri.parse("content://com.android.calendar/events"),
@@ -46,18 +47,30 @@ public class Util {
         startDates.clear();
         endDates.clear();
         descriptions.clear();
+        boolean hasEvent=false;
+        int eventid=-1;
         for (int i = 0; i < CNames.length; i++) {
 
             nameOfEvent.add(cursor.getString(1));
             startDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))));
-            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+            startDatesl.add(cursor.getString(3));
+//            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
             descriptions.add(cursor.getString(2));
             CNames[i] = cursor.getString(1);
             cursor.moveToNext();
-            Log.e(TAG, "readCalendarEvent: date"+getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))) );
-            Log.e(TAG, "readCalendarEvent: name"+cursor.getString(1) );
+            if (isToday(Long.parseLong(startDatesl.get(i)))){
+                Log.e(TAG, "readCalendarEvent: has event" );
+                hasEvent=true;
+                eventid=i;
+            }
+            Log.e(TAG, "readCalendarEvent: date"+startDates.get(i) );
+            Log.e(TAG, "readCalendarEvent: name"+CNames[i]);
         }
-        return nameOfEvent;
+        if (hasEvent){
+            return nameOfEvent.get(eventid);
+        }else {
+            return "no events today";
+        }
     }
     public static SpannableString getCustomDateYMD() {
         Calendar c = Calendar.getInstance();
@@ -94,6 +107,10 @@ public class Util {
     public static String getFormatedDateHHMMl(long l) {
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("HH:mm");
         return format.format(new Date(l));
+    }
+    public static boolean isToday(long l) {
+        @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        return format.format(new Date(l)).contentEquals(format.format(new Date()));
     }
 
     public static double getFormatedDateHHMM(Date d) {
