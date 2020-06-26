@@ -98,25 +98,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:rotation="270">
-
-                <TextView
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/rlMM"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Tile 3"
-                    android:textColor="@android:color/black"
-                    android:textSize="38sp" />
+                    android:layout_height="match_parent">
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Tile 3"
-                    android:textColor="@android:color/black"
-                    android:textSize="48sp" />
+                    <TextView
+                        android:id="@+id/dateGreenTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Tile 3"
+                        android:lines="1"
+                        android:rotation="270"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="38sp" />
+
+                    <TextView
+                        android:id="@+id/weekGreen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="200dp"
+                        android:layout_toEndOf="@+id/dateGreenTv"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:rotation="270"
+                        android:text="Tile 3Tile 3Tile 3"
+                        android:layout_centerVertical="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="48sp" />
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>

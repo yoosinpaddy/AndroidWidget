@@ -22,10 +22,13 @@ public class Util {
 
     private static final String TAG = "Util";
 
-    public static String getCustomDateYM() {
+    public static SpannableString getCustomDateYMD() {
         Calendar c = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("yyyy-MM-");
-        return format.format(c.getTime());
+        @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String s = format.format(c.getTime());
+        SpannableString ss1 = new SpannableString(s);
+        ss1.setSpan(new RelativeSizeSpan(2f), 8, 10, 0); // set size
+        return ss1;
     }
 
     public static String getCustomDateDD() {

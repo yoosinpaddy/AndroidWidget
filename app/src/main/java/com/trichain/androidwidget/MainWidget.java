@@ -7,6 +7,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -14,10 +16,14 @@ import com.trichain.androidwidget.room.config.DatabaseClient;
 import com.trichain.androidwidget.room.tables.AlarmTable;
 import com.trichain.androidwidget.util.Util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.TimeZone;
 
 import static com.trichain.androidwidget.util.Util.doubleToDate;
 import static com.trichain.androidwidget.util.Util.getCurrentTimeHHMM;
+import static com.trichain.androidwidget.util.Util.getCustomDateYMD;
 import static com.trichain.androidwidget.util.Util.getFormatedDateHHMM;
 import static com.trichain.androidwidget.util.Util.longToDate;
 
@@ -39,8 +45,77 @@ public class MainWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
         setupBlue(context);
+        setupGreen(context);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+    }
+    static void setupGreen(Context context){
+
+        //Current date
+        remoteViews.setTextViewText(R.id.dateGreenTv, getCustomDateYMD());
+        new Handler().postDelayed(n,1000);
+
+        //Day of week
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        String s = "w"+calendar.get(Calendar.WEEK_OF_YEAR)+"mo tu we th fr sa su";
+        SpannableString ss1 = new SpannableString(s);
+        ss1.setSpan(new RelativeSizeSpan(2f), 1, 3, 0); // set size
+        switch (day) {
+            case Calendar.MONDAY:
+                if (String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)).length()==2){
+                    ss1.setSpan(new RelativeSizeSpan(2f), 3, 5, 0); // set size
+                }else{
+                    ss1.setSpan(new RelativeSizeSpan(2f), 2, 4, 0); // set size
+                }
+                break;
+            case Calendar.TUESDAY:
+                if (String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)).length()==2){
+                    ss1.setSpan(new RelativeSizeSpan(2f), 6, 8, 0); // set size
+                }else{
+                    ss1.setSpan(new RelativeSizeSpan(2f), 5, 7, 0); // set size
+                }
+                break;
+            case Calendar.WEDNESDAY:
+                if (String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)).length()==2){
+                    ss1.setSpan(new RelativeSizeSpan(2f), 9, 11, 0); // set size
+                }else{
+                    ss1.setSpan(new RelativeSizeSpan(2f), 8, 10, 0); // set size
+                }
+                break;
+            case Calendar.THURSDAY:
+                if (String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)).length()==2){
+                    ss1.setSpan(new RelativeSizeSpan(2f), 12, 14, 0); // set size
+                }else{
+                    ss1.setSpan(new RelativeSizeSpan(2f), 11, 13, 0); // set size
+                }
+                break;
+            case Calendar.FRIDAY:
+                if (String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)).length()==2){
+                    ss1.setSpan(new RelativeSizeSpan(2f), 15, 17, 0); // set size
+                }else{
+                    ss1.setSpan(new RelativeSizeSpan(2f), 14, 16, 0); // set size
+                }
+                break;
+            case Calendar.SATURDAY:
+                if (String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)).length()==2){
+                    ss1.setSpan(new RelativeSizeSpan(2f), 18, 20, 0); // set size
+                }else{
+                    ss1.setSpan(new RelativeSizeSpan(2f), 17, 19, 0); // set size
+                }
+                break;
+            case Calendar.SUNDAY:
+                if (String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)).length()==2){
+                    ss1.setSpan(new RelativeSizeSpan(2f), 21, 23, 0); // set size
+                }else{
+                    ss1.setSpan(new RelativeSizeSpan(2f), 20, 22, 0); // set size
+                }
+                break;
+        }
+        remoteViews.setTextViewText(R.id.weekGreen, ss1);
+        Log.e(TAG, "setupGreen: "+getCustomDateYMD() );
+        Log.e(TAG, "setupGreen: "+ss1 );
+
     }
     static void setupBlue(Context context){
 
@@ -55,9 +130,16 @@ public class MainWidget extends AppWidgetProvider {
         remoteViews.setTextViewText(R.id.timeZone, time);
 
         //alarm
-        String alarmt=longToDate(context.getSystemService(AlarmManager.class).getNextAlarmClock().getTriggerTime() );
-        Log.e(TAG, "updateAppWidget Alarm: "+alarmt     );
-        remoteViews.setTextViewText(R.id.tvAlarm, "alarm "+alarmt);
+        if (context.getSystemService(AlarmManager.class).getNextAlarmClock()==null){
+            String alarmt="No Alarms";
+            Log.e(TAG, "updateAppWidget Alarm: "+alarmt     );
+            remoteViews.setTextViewText(R.id.tvAlarm, "alarm "+alarmt);
+        }else {
+            String alarmt=longToDate(context.getSystemService(AlarmManager.class).getNextAlarmClock().getTriggerTime() );
+            Log.e(TAG, "updateAppWidget Alarm: "+alarmt     );
+            remoteViews.setTextViewText(R.id.tvAlarm, "alarm "+alarmt);
+        }
+
 
 
     }
