@@ -43,7 +43,7 @@ public class MainWidget extends AppWidgetProvider {
         appWidgetId1=appWidgetId;
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget2);
+        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
         setupBlue(context);
         setupGreen(context);
         setupUpcomingEvents(context);
@@ -180,7 +180,7 @@ public class MainWidget extends AppWidgetProvider {
                 remoteViews.setTextViewText(R.id.tvCurrentTime, getCurrentTimeHHMM());
                 appWidgetManager1.updateAppWidget(appWidgetId1, remoteViews);
             }
-            new Handler().postDelayed(n,1000);
+            new Handler().postDelayed(n, 60000);
         }
 
     };
