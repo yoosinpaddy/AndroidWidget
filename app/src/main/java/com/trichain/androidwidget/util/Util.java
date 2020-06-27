@@ -3,16 +3,10 @@ package com.trichain.androidwidget.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
-import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 
 import com.trichain.androidwidget.EventModel;
 
@@ -30,7 +24,9 @@ public class Util {
     private static final String TAG = "Util";
     public static ArrayList<String> nameOfEvent = new ArrayList<String>();
     public static ArrayList<String> startDates = new ArrayList<String>();
+    public static ArrayList<SpannableString> starRealtDates = new ArrayList<SpannableString>();
     public static ArrayList<String> startDatesl = new ArrayList<String>();
+    public static ArrayList<String> eventLocationl = new ArrayList<String>();
     public static ArrayList<String> endDates = new ArrayList<String>();
     public static ArrayList<String> descriptions = new ArrayList<String>();
 
@@ -98,7 +94,9 @@ public class Util {
 
             nameOfEvent.add(cursor.getString(1));
             startDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))));
+            starRealtDates.add(getFormatedDateHHMMlR(Long.parseLong(cursor.getString(3))));
             startDatesl.add(cursor.getString(3));
+            eventLocationl.add(cursor.getString(5));
 //            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
             descriptions.add(cursor.getString(2));
             CNames[i] = cursor.getString(1);
@@ -110,6 +108,8 @@ public class Util {
                 SpannableString start= new SpannableString(startDates.get(i));
                 SpannableString stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
                 SpannableString name= new SpannableString(nameOfEvent.get(i));
+                SpannableString loc= new SpannableString(eventLocationl.get(i));
+                SpannableString date= starRealtDates.get(i);
                 if (start!=null){
                     start=makeSpanDate(start);
                 }
@@ -117,7 +117,7 @@ public class Util {
                     stop=makeSpanDate(stop);
                 }
                 if(name.toString().toLowerCase().contains("appointment")){
-                    events.add(new EventModel(start,stop,name));
+                    events.add(new EventModel(start,stop,name,date,loc));
                 }
             }
             Log.e(TAG, "readCalendarEvent: date"+startDates.get(i) );
@@ -168,6 +168,14 @@ public class Util {
     public static String getFormatedDateHHMMl(long l) {
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("HH:mm");
         return format.format(new Date(l));
+    }
+
+    public static SpannableString getFormatedDateHHMMlR(long l) {
+        @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("MM-dd");
+        String s = format.format(new Date(l));
+        SpannableString ss1 = new SpannableString(s);
+        ss1.setSpan(new RelativeSizeSpan(2f), 3, 5, 0); // set size
+        return ss1;
     }
     public static boolean isToday(long l) {
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("yyyyMMdd");

@@ -160,10 +160,14 @@ public class MainWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.startUpcoming, a.get(0).getStartD());
             remoteViews.setTextViewText(R.id.endUpcoming, a.get(0).getEndD());
             remoteViews.setTextViewText(R.id.nameUpcomming, a.get(0).getName());
+            remoteViews.setTextViewText(R.id.appointmentDate, a.get(0).getDate());
+            remoteViews.setTextViewText(R.id.tvUpcomingAppointmentlocation, a.get(0).getLocation());
         }else {
             remoteViews.setTextViewText(R.id.startUpcoming, "not set");
             remoteViews.setTextViewText(R.id.endUpcoming, "not set");
             remoteViews.setTextViewText(R.id.nameUpcomming, "no upcoming appointment");
+            remoteViews.setTextViewText(R.id.appointmentDate, "");
+            remoteViews.setTextViewText(R.id.tvUpcomingAppointmentlocation,"");
         }
 //        new Handler().postDelayed(n,1000);
 
