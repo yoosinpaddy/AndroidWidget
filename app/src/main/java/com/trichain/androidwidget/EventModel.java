@@ -40,6 +40,10 @@ public class EventModel {
     }
 
     public SpannableString getLocation() {
+
+        if (location==null){
+            return new SpannableString("No location");
+        }
         return location;
     }
 }

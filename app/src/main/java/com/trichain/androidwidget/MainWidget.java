@@ -2,14 +2,20 @@ package com.trichain.androidwidget;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.trichain.androidwidget.room.config.DatabaseClient;
@@ -26,6 +32,8 @@ import static com.trichain.androidwidget.util.Util.getFormatedDateHHMM;
 import static com.trichain.androidwidget.util.Util.longToDate;
 import static com.trichain.androidwidget.util.Util.readCalendarEvent;
 import static com.trichain.androidwidget.util.Util.readCalendarRecentEvent;
+import static com.trichain.androidwidget.util.Util.readCalendarRecentEventGreaterThanTomorrow;
+import static com.trichain.androidwidget.util.Util.readCalendarRecentEventLessThanTomorrow;
 
 /**
  * Implementation of App Widget functionality.
@@ -37,18 +45,66 @@ public class MainWidget extends AppWidgetProvider {
     static RemoteViews remoteViews;
     static AppWidgetManager appWidgetManager1;
     static int appWidgetId1;
+    Intent alarmClockIntent;
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         appWidgetManager1=appWidgetManager;
         appWidgetId1=appWidgetId;
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget2);
+        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
         setupBlue(context);
         setupGreen(context);
-        setupUpcomingEvents(context);
+        setupUpcomingAppointments(context);
+
+        OtherAppointment1(context);
+        OtherAppointment2(context);
+
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+    }
+    public void launchCalendar(Context c)
+    {
+        Intent LaunchIntent = c.getPackageManager().getLaunchIntentForPackage(" com.android.calendar");
+        c.startActivity(LaunchIntent);
+    }
+    public void launchAlarm(Context context)
+    {
+        // Verify clock implementation
+        String clockImpls[][] = {
+                {"HTC Alarm Clock", "com.htc.android.worldclock", "com.htc.android.worldclock.WorldClockTabControl" },
+                {"Standar Alarm Clock", "com.android.deskclock", "com.android.deskclock.AlarmClock"},
+                {"Froyo Nexus Alarm Clock", "com.google.android.deskclock", "com.android.deskclock.DeskClock"},
+                {"Moto Blur Alarm Clock", "com.motorola.blur.alarmclock",  "com.motorola.blur.alarmclock.AlarmClock"},
+                {"Samsung Galaxy Clock", "com.sec.android.app.clockpackage","com.sec.android.app.clockpackage.ClockPackage"} ,
+                {"Sony Ericsson Xperia Z", "com.sonyericsson.organizer", "com.sonyericsson.organizer.Organizer_WorldClock" },
+                {"ASUS Tablets", "com.asus.deskclock", "com.asus.deskclock.DeskClock"}
+
+        };
+
+        boolean foundClockImpl = false;
+
+        for(int i=0; i<clockImpls.length; i++) {
+            String vendor = clockImpls[i][0];
+            String packageName = clockImpls[i][1];
+            String className = clockImpls[i][2];
+            try {
+                ComponentName cn = new ComponentName(packageName, className);
+                ActivityInfo aInfo = context.getPackageManager().getActivityInfo(cn, PackageManager.GET_META_DATA);
+                alarmClockIntent.setComponent(cn);
+                Log.e(TAG, "launchAlarm: Found " + vendor + " --> " + packageName + "/" + className);
+                foundClockImpl = true;
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.e(TAG, "launchAlarm: "+vendor + " does not exists");
+            }
+        }
+
+        if (foundClockImpl) {
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, alarmClockIntent, 0);
+
+            // add pending intent to your component
+            // ....
+        }
     }
     static void setupGreen(Context context){
 
@@ -144,11 +200,33 @@ public class MainWidget extends AppWidgetProvider {
 
 
     }
-    static void setupUpcomingEvents(Context context){
+    static void OtherAppointment1(Context context){
 
-        //Upcoming
-//        remoteViews.setTextViewText(R.id.todayEvents, readCalendarEvent(context));
-//        new Handler().postDelayed(n,1000);
+        List<EventModel> a= readCalendarRecentEventLessThanTomorrow(context);
+        if (a.size()>1){
+            remoteViews.setTextViewText(R.id.tvAppt2Time, a.get(0).getStartD());
+            remoteViews.setTextViewText(R.id.tvAppt2Title, a.get(0).getName());
+            remoteViews.setTextViewText(R.id.tvAppt2Date, a.get(0).getDate());
+        }else {
+            remoteViews.setTextViewText(R.id.tvAppt2Time, "");
+            remoteViews.setTextViewText(R.id.tvAppt2Title, "");
+            remoteViews.setTextViewText(R.id.tvAppt2Date, "");
+        }
+
+
+    }
+    static void OtherAppointment2(Context context){
+
+        List<EventModel> a= readCalendarRecentEventGreaterThanTomorrow(context);
+        if (a.size()>1){
+            remoteViews.setTextViewText(R.id.tvAppt3Time, a.get(0).getStartD());
+            remoteViews.setTextViewText(R.id.tvAppt3Title, a.get(0).getName());
+            remoteViews.setTextViewText(R.id.tvAppt3Date, a.get(0).getDate());
+        }else {
+            remoteViews.setTextViewText(R.id.tvAppt3Time, "");
+            remoteViews.setTextViewText(R.id.tvAppt3Title, "");
+            remoteViews.setTextViewText(R.id.tvAppt3Date, "");
+        }
 
 
     }
