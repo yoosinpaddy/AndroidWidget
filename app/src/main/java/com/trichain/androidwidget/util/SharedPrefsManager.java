@@ -37,8 +37,12 @@ public class SharedPrefsManager {
         sharedPreferences.edit().putFloat(prefs_key, fontSize).apply();
     }
 
-    public int getPref(String keyFontColor) {
+    public int getIntPref(String keyFontColor) {
         return sharedPreferences.getInt(keyFontColor, 0);
+    }
+
+    public String getStringPref(String keyFontColor) {
+        return sharedPreferences.getString(keyFontColor, "");
     }
 
     public float getFloatPref(String keyFontSize) {

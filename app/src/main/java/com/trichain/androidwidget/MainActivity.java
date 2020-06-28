@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
-        b.imgFontColor.setBackgroundColor(sharedPrefsManager.getPref(SharedPrefsManager.KEY_FONT_COLOR));
-        b.imgDateColor.setBackgroundColor(sharedPrefsManager.getPref(SharedPrefsManager.KEY_DATE_COLOR));
-        b.imgTimeColor.setBackgroundColor(sharedPrefsManager.getPref(SharedPrefsManager.KEY_TIME_COLOR));
-        b.imgAppointmentColor.setBackgroundColor(sharedPrefsManager.getPref(SharedPrefsManager.KEY_APPOINTMENT_COLOR));
-        b.imglocationColor.setBackgroundColor(sharedPrefsManager.getPref(SharedPrefsManager.KEY_LOCATION_COLOR));
-        b.tvDateFormat.setText(sharedPrefsManager.getPref(SharedPrefsManager.KEY_DATE_FORMAT));
-        b.tvTimeFormat.setText(sharedPrefsManager.getPref(SharedPrefsManager.KEY_TIME_FORMAT));
+        b.imgFontColor.setBackgroundColor(sharedPrefsManager.getIntPref(SharedPrefsManager.KEY_FONT_COLOR));
+        b.imgDateColor.setBackgroundColor(sharedPrefsManager.getIntPref(SharedPrefsManager.KEY_DATE_COLOR));
+        b.imgTimeColor.setBackgroundColor(sharedPrefsManager.getIntPref(SharedPrefsManager.KEY_TIME_COLOR));
+        b.imgAppointmentColor.setBackgroundColor(sharedPrefsManager.getIntPref(SharedPrefsManager.KEY_APPOINTMENT_COLOR));
+        b.imglocationColor.setBackgroundColor(sharedPrefsManager.getIntPref(SharedPrefsManager.KEY_LOCATION_COLOR));
+        b.tvDateFormat.setText(sharedPrefsManager.getStringPref(SharedPrefsManager.KEY_DATE_FORMAT));
+        b.tvTimeFormat.setText(sharedPrefsManager.getStringPref(SharedPrefsManager.KEY_TIME_FORMAT));
 
 
         if (sharedPrefsManager.getFloatPref(SharedPrefsManager.KEY_FONT_SIZE) == 11.0f) {
