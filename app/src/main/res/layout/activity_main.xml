@@ -76,10 +76,10 @@
 
                             <TextView
                                 android:id="@+id/tvFontSize"
-                                android:layout_width="36dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:text="21sp" />
+                                android:text="small" />
 
                         </LinearLayout>
 
@@ -115,7 +115,7 @@
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/colorAccent" />
 
-                            <ImageButton
+                            <ImageView
                                 android:id="@+id/imgFontColor"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
@@ -424,7 +424,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="36dp"
                                 android:gravity="center"
-                                android:text="24h" />
+                                android:text="12h" />
 
                         </LinearLayout>
 
