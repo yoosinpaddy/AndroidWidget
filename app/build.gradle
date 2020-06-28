@@ -25,6 +25,7 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -44,4 +45,7 @@ dependencies {
 
     //CardView
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    //Color picker dialog
+    implementation 'com.github.yukuku:ambilwarna:2.0.1'
 }
