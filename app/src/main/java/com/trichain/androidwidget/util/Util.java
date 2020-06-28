@@ -24,6 +24,7 @@ public class Util {
     private static final String TAG = "Util";
     public static ArrayList<String> nameOfEvent = new ArrayList<String>();
     public static ArrayList<String> startDates = new ArrayList<String>();
+    public static ArrayList<String> stopDates = new ArrayList<String>();
     public static ArrayList<SpannableString> starRealtDates = new ArrayList<SpannableString>();
     public static ArrayList<String> startDatesl = new ArrayList<String>();
     public static ArrayList<String> eventLocationl = new ArrayList<String>();
@@ -94,9 +95,19 @@ public class Util {
 
             nameOfEvent.add(cursor.getString(1));
             startDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))));
+            if (cursor.getString(4)!=null){
+                stopDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+            }else {
+                stopDates.add("00:00");
+
+            }
             starRealtDates.add(getFormatedDateHHMMlR(Long.parseLong(cursor.getString(3))));
             startDatesl.add(cursor.getString(3));
-            eventLocationl.add(cursor.getString(5));
+            if (cursor.getString(5)!=null){
+                eventLocationl.add(cursor.getString(5));
+            }else {
+                eventLocationl.add("");
+            }
 //            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
             descriptions.add(cursor.getString(2));
             CNames[i] = cursor.getString(1);
@@ -106,7 +117,7 @@ public class Util {
                 hasEvent=true;
                 eventid=i;
                 SpannableString start= new SpannableString(startDates.get(i));
-                SpannableString stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+                SpannableString stop= new SpannableString(stopDates.get(i));
                 SpannableString name= new SpannableString(nameOfEvent.get(i));
                 SpannableString loc= new SpannableString(eventLocationl.get(i));
                 SpannableString date= starRealtDates.get(i);
@@ -120,6 +131,70 @@ public class Util {
                     events.add(new EventModel(start,stop,name,date,loc));
                 }
             }
+            Log.e(TAG, "readCalendarEvent: date"+startDates.get(i) );
+            Log.e(TAG, "readCalendarEvent: name"+CNames[i]);
+        }
+        return events;
+    }
+    public static List<EventModel> readCalendarTodayEvent(Context context) {
+        List<EventModel> events=new ArrayList<>();
+        Cursor cursor = context.getContentResolver()
+                .query(
+                        Uri.parse("content://com.android.calendar/events"),
+                        new String[] { "calendar_id", "title", "description",
+                                "dtstart", "dtend", "eventLocation" }, null,
+                        null, null);
+        cursor.moveToFirst();
+        // fetching calendars name
+        String CNames[] = new String[cursor.getCount()];
+
+        // fetching calendars id
+        nameOfEvent.clear();
+        startDates.clear();
+        endDates.clear();
+        descriptions.clear();
+        boolean hasEvent=false;
+        int eventid=-1;
+        for (int i = 0; i < CNames.length; i++) {
+
+            nameOfEvent.add(cursor.getString(1));
+            startDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))));
+            starRealtDates.add(getFormatedDateHHMMlR(Long.parseLong(cursor.getString(3))));
+            startDatesl.add(cursor.getString(3));
+            if (cursor.getString(5)!=null){
+                eventLocationl.add(cursor.getString(5));
+            }else {
+                eventLocationl.add("");
+            }
+//            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+            descriptions.add(cursor.getString(2));
+            CNames[i] = cursor.getString(1);
+            if (isToday(Long.parseLong(startDatesl.get(i)))){
+                Log.e(TAG, "readCalendarEvent: has event" );
+                hasEvent=true;
+                eventid=i;
+                SpannableString stop;
+                if (cursor.getString(4)!=null){
+                    stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+                }else {
+                    stop= new SpannableString("00:00");
+
+                }
+                SpannableString start= new SpannableString(startDates.get(i));
+                SpannableString name= new SpannableString(nameOfEvent.get(i));
+                SpannableString loc= new SpannableString(eventLocationl.get(i));
+                SpannableString date= starRealtDates.get(i);
+                if (start!=null){
+                    start=makeSpanDate(start);
+                }
+                if (stop!=null){
+                    stop=makeSpanDate(stop);
+                }
+                if(name.toString().toLowerCase().contains("appointment")){
+                    events.add(new EventModel(start,stop,name,date,loc));
+                }
+            }
+            cursor.moveToNext();
             Log.e(TAG, "readCalendarEvent: date"+startDates.get(i) );
             Log.e(TAG, "readCalendarEvent: name"+CNames[i]);
         }
@@ -150,17 +225,26 @@ public class Util {
             startDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))));
             starRealtDates.add(getFormatedDateHHMMlR(Long.parseLong(cursor.getString(3))));
             startDatesl.add(cursor.getString(3));
-            eventLocationl.add(cursor.getString(5));
+            if (cursor.getString(5)!=null){
+                eventLocationl.add(cursor.getString(5));
+            }else {
+                eventLocationl.add("");
+            }
 //            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
             descriptions.add(cursor.getString(2));
             CNames[i] = cursor.getString(1);
-            cursor.moveToNext();
             if (isTomorrowOrLess(Long.parseLong(startDatesl.get(i)))){
                 Log.e(TAG, "readCalendarEvent: has event" );
                 hasEvent=true;
                 eventid=i;
+                SpannableString stop;
+                if (cursor.getString(4)!=null){
+                    stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+                }else {
+                    stop= new SpannableString("00:00");
+
+                }
                 SpannableString start= new SpannableString(startDates.get(i));
-                SpannableString stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
                 SpannableString name= new SpannableString(nameOfEvent.get(i));
                 SpannableString loc= new SpannableString(eventLocationl.get(i));
                 SpannableString date= starRealtDates.get(i);
@@ -174,12 +258,14 @@ public class Util {
                     events.add(new EventModel(start,stop,name,date,loc));
                 }
             }
+            cursor.moveToNext();
             Log.e(TAG, "readCalendarRecentEventLessThanTomorrow: date"+startDates.get(i) );
             Log.e(TAG, "readCalendarRecentEventLessThanTomorrow: name"+CNames[i]);
         }
         return events;
     }
     public static List<EventModel> readCalendarRecentEventGreaterThanTomorrow(Context context) {
+        Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: start" );
         List<EventModel> events=new ArrayList<>();
         Cursor cursor = context.getContentResolver()
                 .query(
@@ -188,6 +274,7 @@ public class Util {
                                 "dtstart", "dtend", "eventLocation" }, null,
                         null, null);
         cursor.moveToFirst();
+        Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: cursor"+cursor.getCount() );
         // fetching calendars name
         String CNames[] = new String[cursor.getCount()];
 
@@ -204,17 +291,26 @@ public class Util {
             startDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(3))));
             starRealtDates.add(getFormatedDateHHMMlR(Long.parseLong(cursor.getString(3))));
             startDatesl.add(cursor.getString(3));
-            eventLocationl.add(cursor.getString(5));
+            if (cursor.getString(5)!=null){
+                eventLocationl.add(cursor.getString(5));
+            }else {
+                eventLocationl.add("");
+            }
 //            endDates.add(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
             descriptions.add(cursor.getString(2));
             CNames[i] = cursor.getString(1);
-            cursor.moveToNext();
             if (isGreaterThanTomorrow(Long.parseLong(startDatesl.get(i)))){
-                Log.e(TAG, "readCalendarEvent: has event" );
+                Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: has event" );
                 hasEvent=true;
                 eventid=i;
+                SpannableString stop;
+                if (cursor.getString(4)!=null){
+                    stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
+                }else {
+                    stop= new SpannableString("00:00");
+
+                }
                 SpannableString start= new SpannableString(startDates.get(i));
-                SpannableString stop= new SpannableString(getFormatedDateHHMMl(Long.parseLong(cursor.getString(4))));
                 SpannableString name= new SpannableString(nameOfEvent.get(i));
                 SpannableString loc= new SpannableString(eventLocationl.get(i));
                 SpannableString date= starRealtDates.get(i);
@@ -225,11 +321,15 @@ public class Util {
                     stop=makeSpanDate(stop);
                 }
                 if(name.toString().toLowerCase().contains("appointment")){
+                    Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: namex:"+name );
                     events.add(new EventModel(start,stop,name,date,loc));
+                }else {
+                    Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: name:"+name );
                 }
             }
-            Log.e(TAG, "readCalendarRecentEventLessThanTomorrow: date"+startDates.get(i) );
-            Log.e(TAG, "readCalendarRecentEventLessThanTomorrow: name"+CNames[i]);
+            cursor.moveToNext();
+            Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: date"+startDates.get(i) );
+            Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: name"+CNames[i]);
         }
         return events;
     }
@@ -303,10 +403,14 @@ public class Util {
     public static boolean isGreaterThanTomorrow(long l) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 1);  // number of days to add
+        c.add(Calendar.DATE, 2);  // number of days to add
         c.set(Calendar.HOUR_OF_DAY,0);
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("yyyyMMdd");
-        return format.format(new Date(l)).contentEquals(format.format(new Date()))||l>c.getTimeInMillis();
+        boolean yes= l>c.getTimeInMillis();
+        if (yes){
+            Log.e(TAG, "isGreaterThanTomorrow: "+c.getTime().toString() );
+        }
+        return yes;
     }
 
     public static double getFormatedDateHHMM(Date d) {

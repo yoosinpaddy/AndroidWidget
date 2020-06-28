@@ -6,12 +6,16 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
@@ -21,6 +25,7 @@ import android.widget.RemoteViews;
 import com.trichain.androidwidget.room.config.DatabaseClient;
 import com.trichain.androidwidget.room.tables.AlarmTable;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -34,6 +39,7 @@ import static com.trichain.androidwidget.util.Util.readCalendarEvent;
 import static com.trichain.androidwidget.util.Util.readCalendarRecentEvent;
 import static com.trichain.androidwidget.util.Util.readCalendarRecentEventGreaterThanTomorrow;
 import static com.trichain.androidwidget.util.Util.readCalendarRecentEventLessThanTomorrow;
+import static com.trichain.androidwidget.util.Util.readCalendarTodayEvent;
 
 /**
  * Implementation of App Widget functionality.
@@ -45,20 +51,23 @@ public class MainWidget extends AppWidgetProvider {
     static RemoteViews remoteViews;
     static AppWidgetManager appWidgetManager1;
     static int appWidgetId1;
-    Intent alarmClockIntent;
+    static Intent alarmClockIntent;
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         appWidgetManager1=appWidgetManager;
         appWidgetId1=appWidgetId;
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
+        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget_new_new);
+        setUpSettings(context);
         setupBlue(context);
         setupGreen(context);
         setupUpcomingAppointments(context);
+        setupAllDayEvents(context);
 
         OtherAppointment1(context);
         OtherAppointment2(context);
+        launchCalendar(context);
 
         remoteViews.setViewVisibility(R.id.progressBar, View.GONE);
         Log.e(TAG, "onUpdate: data updated");
@@ -67,48 +76,32 @@ public class MainWidget extends AppWidgetProvider {
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
-    public void launchCalendar(Context c)
-    {
-        Intent LaunchIntent = c.getPackageManager().getLaunchIntentForPackage(" com.android.calendar");
-        c.startActivity(LaunchIntent);
+
+    private static void setUpSettings(Context context) {
     }
-    public void launchAlarm(Context context)
+
+    static void launchCalendar(Context c)
     {
-        // Verify clock implementation
-        String clockImpls[][] = {
-                {"HTC Alarm Clock", "com.htc.android.worldclock", "com.htc.android.worldclock.WorldClockTabControl" },
-                {"Standar Alarm Clock", "com.android.deskclock", "com.android.deskclock.AlarmClock"},
-                {"Froyo Nexus Alarm Clock", "com.google.android.deskclock", "com.android.deskclock.DeskClock"},
-                {"Moto Blur Alarm Clock", "com.motorola.blur.alarmclock",  "com.motorola.blur.alarmclock.AlarmClock"},
-                {"Samsung Galaxy Clock", "com.sec.android.app.clockpackage","com.sec.android.app.clockpackage.ClockPackage"} ,
-                {"Sony Ericsson Xperia Z", "com.sonyericsson.organizer", "com.sonyericsson.organizer.Organizer_WorldClock" },
-                {"ASUS Tablets", "com.asus.deskclock", "com.asus.deskclock.DeskClock"}
+        Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+        builder.appendPath("time");
+        ContentUris.appendId(builder, Calendar.getInstance().getTimeInMillis());
+        Intent LaunchIntent = new Intent(Intent.ACTION_VIEW)
+                .setData(builder.build());
 
-        };
+        PendingIntent pendingIntent = PendingIntent.getActivity(c, 0, LaunchIntent, 0);
 
-        boolean foundClockImpl = false;
+        remoteViews.setOnClickPendingIntent(R.id.appointmentClick, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.dateClick, pendingIntent);
+    }
+    static void launchAlarm(Context context)
+    {
+        Intent openClockIntent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
+        openClockIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        for(int i=0; i<clockImpls.length; i++) {
-            String vendor = clockImpls[i][0];
-            String packageName = clockImpls[i][1];
-            String className = clockImpls[i][2];
-            try {
-                ComponentName cn = new ComponentName(packageName, className);
-                ActivityInfo aInfo = context.getPackageManager().getActivityInfo(cn, PackageManager.GET_META_DATA);
-                alarmClockIntent.setComponent(cn);
-                Log.e(TAG, "launchAlarm: Found " + vendor + " --> " + packageName + "/" + className);
-                foundClockImpl = true;
-            } catch (PackageManager.NameNotFoundException e) {
-                Log.e(TAG, "launchAlarm: "+vendor + " does not exists");
-            }
-        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openClockIntent, 0);
 
-        if (foundClockImpl) {
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, alarmClockIntent, 0);
+        remoteViews.setOnClickPendingIntent(R.id.timeClick, pendingIntent);
 
-            // add pending intent to your component
-            // ....
-        }
     }
     static void setupGreen(Context context){
 
@@ -201,6 +194,17 @@ public class MainWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.tvAlarm, "alarm "+alarmt);
         }
 
+launchAlarm(context);
+
+    }
+    static void setupAllDayEvents(Context context){
+        List<EventModel> ll=readCalendarTodayEvent(context);
+        if (ll.size()>0){
+            remoteViews.setTextViewText(R.id.todayEvents, ll.get(0).getName());
+        }else{
+            remoteViews.setTextViewText(R.id.todayEvents, "No events today");
+        }
+
 
 
     }
@@ -222,13 +226,13 @@ public class MainWidget extends AppWidgetProvider {
     static void OtherAppointment2(Context context){
 
         List<EventModel> a= readCalendarRecentEventGreaterThanTomorrow(context);
-        if (a.size()>1){
+        if (a.size()>0){
             remoteViews.setTextViewText(R.id.tvAppt3Time, a.get(0).getStartD());
             remoteViews.setTextViewText(R.id.tvAppt3Title, a.get(0).getName());
             remoteViews.setTextViewText(R.id.tvAppt3Date, a.get(0).getDate());
         }else {
             remoteViews.setTextViewText(R.id.tvAppt3Time, "");
-            remoteViews.setTextViewText(R.id.tvAppt3Title, "");
+            remoteViews.setTextViewText(R.id.tvAppt3Title, "No other appointment");
             remoteViews.setTextViewText(R.id.tvAppt3Date, "");
         }
 
@@ -245,8 +249,8 @@ public class MainWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.appointmentDate, a.get(0).getDate());
             remoteViews.setTextViewText(R.id.tvUpcomingAppointmentlocation, a.get(0).getLocation());
         }else {
-            remoteViews.setTextViewText(R.id.startUpcoming, "not set");
-            remoteViews.setTextViewText(R.id.endUpcoming, "not set");
+            remoteViews.setTextViewText(R.id.startUpcoming, "");
+            remoteViews.setTextViewText(R.id.endUpcoming, "");
             remoteViews.setTextViewText(R.id.nameUpcomming, "no upcoming appointment");
             remoteViews.setTextViewText(R.id.appointmentDate, "");
             remoteViews.setTextViewText(R.id.tvUpcomingAppointmentlocation,"");
