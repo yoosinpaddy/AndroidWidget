@@ -32,9 +32,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_APPOINTMENT_COLOR;
 import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_DATE_COLOR;
 import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_FONT_COLOR;
 import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_FONT_SIZE;
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_LOCATION_COLOR;
 import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_TIME_COLOR;
 import static com.trichain.androidwidget.util.Util.doubleToDate;
 import static com.trichain.androidwidget.util.Util.getCurrentTimeHHMM;
@@ -114,16 +116,16 @@ public class MainWidget extends AppWidgetProvider {
         remoteViews.setTextColor(R.id.endUpcoming,mPref.getIntPref(KEY_TIME_COLOR));
         remoteViews.setTextViewTextSize(R.id.endUpcoming, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.nameUpcomming,mPref.getIntPref(KEY_FONT_COLOR));
+        remoteViews.setTextColor(R.id.nameUpcomming,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
         remoteViews.setTextViewTextSize(R.id.nameUpcomming, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvUpcomingAppointmentlocation,mPref.getIntPref(KEY_FONT_COLOR));
+        remoteViews.setTextColor(R.id.tvUpcomingAppointmentlocation,mPref.getIntPref(KEY_LOCATION_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvUpcomingAppointmentlocation, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
         remoteViews.setTextColor(R.id.tvAppt2Date,mPref.getIntPref(KEY_DATE_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt2Date, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt2Title,mPref.getIntPref(KEY_FONT_COLOR));
+        remoteViews.setTextColor(R.id.tvAppt2Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt2Title, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
         remoteViews.setTextColor(R.id.tvAppt2Time,mPref.getIntPref(KEY_TIME_COLOR));
@@ -132,7 +134,7 @@ public class MainWidget extends AppWidgetProvider {
         remoteViews.setTextColor(R.id.tvAppt3Date,mPref.getIntPref(KEY_DATE_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt3Date, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt3Title,mPref.getIntPref(KEY_FONT_COLOR));
+        remoteViews.setTextColor(R.id.tvAppt3Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt3Title, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
         remoteViews.setTextColor(R.id.tvAppt3Time,mPref.getIntPref(KEY_TIME_COLOR));
