@@ -3,6 +3,7 @@
     package="com.trichain.androidwidget">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"

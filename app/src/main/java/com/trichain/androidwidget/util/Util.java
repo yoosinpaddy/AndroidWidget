@@ -265,6 +265,7 @@ public class Util {
         return events;
     }
     public static List<EventModel> readCalendarRecentEventGreaterThanTomorrow(Context context) {
+        Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: start" );
         List<EventModel> events=new ArrayList<>();
         Cursor cursor = context.getContentResolver()
                 .query(
@@ -273,6 +274,7 @@ public class Util {
                                 "dtstart", "dtend", "eventLocation" }, null,
                         null, null);
         cursor.moveToFirst();
+        Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: cursor"+cursor.getCount() );
         // fetching calendars name
         String CNames[] = new String[cursor.getCount()];
 
@@ -298,7 +300,7 @@ public class Util {
             descriptions.add(cursor.getString(2));
             CNames[i] = cursor.getString(1);
             if (isGreaterThanTomorrow(Long.parseLong(startDatesl.get(i)))){
-                Log.e(TAG, "readCalendarEvent: has event" );
+                Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: has event" );
                 hasEvent=true;
                 eventid=i;
                 SpannableString stop;
@@ -319,12 +321,15 @@ public class Util {
                     stop=makeSpanDate(stop);
                 }
                 if(name.toString().toLowerCase().contains("appointment")){
+                    Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: namex:"+name );
                     events.add(new EventModel(start,stop,name,date,loc));
+                }else {
+                    Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: name:"+name );
                 }
             }
             cursor.moveToNext();
-            Log.e(TAG, "readCalendarRecentEventLessThanTomorrow: date"+startDates.get(i) );
-            Log.e(TAG, "readCalendarRecentEventLessThanTomorrow: name"+CNames[i]);
+            Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: date"+startDates.get(i) );
+            Log.e(TAG, "readCalendarRecentEventGreaterThanTomorrow: name"+CNames[i]);
         }
         return events;
     }
@@ -398,10 +403,14 @@ public class Util {
     public static boolean isGreaterThanTomorrow(long l) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 1);  // number of days to add
+        c.add(Calendar.DATE, 2);  // number of days to add
         c.set(Calendar.HOUR_OF_DAY,0);
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("yyyyMMdd");
-        return format.format(new Date(l)).contentEquals(format.format(new Date()))||l>c.getTimeInMillis();
+        boolean yes= l>c.getTimeInMillis();
+        if (yes){
+            Log.e(TAG, "isGreaterThanTomorrow: "+c.getTime().toString() );
+        }
+        return yes;
     }
 
     public static double getFormatedDateHHMM(Date d) {
