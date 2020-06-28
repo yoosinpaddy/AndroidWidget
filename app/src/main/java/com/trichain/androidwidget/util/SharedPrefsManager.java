@@ -42,7 +42,7 @@ public class SharedPrefsManager {
     }
 
     public int getIntPref(String PREFS_KEY) {
-        return sharedPreferences.getInt(PREFS_KEY, 0);
+        return sharedPreferences.getInt(PREFS_KEY, -12411905);
     }
 
     public String getStringPref(String PREFS_KEY) {

@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showColorPickerDialog(ImageView targetView, String PREFS_KEY) {
-        new AmbilWarnaDialog(this, R.color.colorPrimary,
+        new AmbilWarnaDialog(this, -12411905,
                 new AmbilWarnaDialog.OnAmbilWarnaListener() {
                     @Override
                     public void onCancel(AmbilWarnaDialog dialog) {
