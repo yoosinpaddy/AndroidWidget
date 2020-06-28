@@ -5,7 +5,7 @@
     android:background="#FFFFFF"
     android:padding="@dimen/widget_margin">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/g1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toTopOf="@id/g2"
         app:layout_constraintTop_toTopOf="parent">
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/g2"
@@ -86,7 +86,6 @@
         app:layout_constraintTop_toTopOf="@+id/m1">
 
         <TextView
-            android:id="@+id/todayEvents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
