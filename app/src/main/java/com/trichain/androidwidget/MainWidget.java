@@ -21,6 +21,7 @@ import android.widget.RemoteViews;
 import com.trichain.androidwidget.room.config.DatabaseClient;
 import com.trichain.androidwidget.room.tables.AlarmTable;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -34,6 +35,7 @@ import static com.trichain.androidwidget.util.Util.readCalendarEvent;
 import static com.trichain.androidwidget.util.Util.readCalendarRecentEvent;
 import static com.trichain.androidwidget.util.Util.readCalendarRecentEventGreaterThanTomorrow;
 import static com.trichain.androidwidget.util.Util.readCalendarRecentEventLessThanTomorrow;
+import static com.trichain.androidwidget.util.Util.readCalendarTodayEvent;
 
 /**
  * Implementation of App Widget functionality.
@@ -52,10 +54,11 @@ public class MainWidget extends AppWidgetProvider {
         appWidgetId1=appWidgetId;
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget);
+        remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget_new_new);
         setupBlue(context);
         setupGreen(context);
         setupUpcomingAppointments(context);
+        setupAllDayEvents(context);
 
         OtherAppointment1(context);
         OtherAppointment2(context);
@@ -204,6 +207,17 @@ public class MainWidget extends AppWidgetProvider {
 
 
     }
+    static void setupAllDayEvents(Context context){
+        List<EventModel> ll=readCalendarTodayEvent(context);
+        if (ll.size()>0){
+            remoteViews.setTextViewText(R.id.todayEvents, ll.get(0).getName());
+        }else{
+            remoteViews.setTextViewText(R.id.todayEvents, "No events today");
+        }
+
+
+
+    }
     static void OtherAppointment1(Context context){
 
         List<EventModel> a= readCalendarRecentEventLessThanTomorrow(context);
@@ -245,8 +259,8 @@ public class MainWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.appointmentDate, a.get(0).getDate());
             remoteViews.setTextViewText(R.id.tvUpcomingAppointmentlocation, a.get(0).getLocation());
         }else {
-            remoteViews.setTextViewText(R.id.startUpcoming, "not set");
-            remoteViews.setTextViewText(R.id.endUpcoming, "not set");
+            remoteViews.setTextViewText(R.id.startUpcoming, "");
+            remoteViews.setTextViewText(R.id.endUpcoming, "");
             remoteViews.setTextViewText(R.id.nameUpcomming, "no upcoming appointment");
             remoteViews.setTextViewText(R.id.appointmentDate, "");
             remoteViews.setTextViewText(R.id.tvUpcomingAppointmentlocation,"");

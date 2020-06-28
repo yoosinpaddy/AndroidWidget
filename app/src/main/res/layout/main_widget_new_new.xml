@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="18sp"
+                android:textSize="11sp"
                 tools:text="Paul ascension day" />
 
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:fontFamily="@font/product_sans_regular"
                 android:gravity="left"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="14sp"
                 tools:text="14:36" />
 
 
@@ -70,7 +70,7 @@
                 android:layout_marginStart="5dp"
                 android:gravity="left"
                 android:textColor="@color/colorAccent"
-                android:textSize="18sp"
+                android:textSize="11sp"
                 tools:text="europe/berlin gmt+1" />
 
             <TextView
@@ -81,7 +81,7 @@
                 android:fontFamily="@font/product_sans_regular"
                 android:gravity="left"
                 android:textColor="@color/colorPrimary"
-                android:textSize="28sp"
+                android:textSize="14sp"
                 tools:text="alarm 07:36" />
 
         </LinearLayout>
@@ -117,7 +117,7 @@
                     android:gravity="center"
                     android:lines="1"
                     android:textColor="@color/colorSecondary"
-                    android:textSize="18sp"
+                    android:textSize="11sp"
                     tools:text="2020-05-05-15" />
 
                 <TextView
@@ -128,7 +128,7 @@
                     android:layout_toEndOf="@+id/dateGreenTv"
                     android:gravity="center"
                     android:textColor="@color/colorSecondary"
-                    android:textSize="18dp"
+                    android:textSize="11dp"
                     tools:text="w22 mo di mi do FR sa so" />
             </LinearLayout>
 
@@ -155,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/colorSecondary"
-                    android:textSize="18sp"
+                    android:textSize="11sp"
                     tools:text="05-24" />
 
 
@@ -170,7 +170,7 @@
                         android:layout_alignParentStart="true"
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="1630" />
 
                     <TextView
@@ -180,7 +180,7 @@
                         android:layout_alignParentEnd="true"
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="1630" />
                 </RelativeLayout>
 
@@ -192,7 +192,7 @@
                     android:fontFamily="@font/product_sans_bold"
                     android:gravity="start|center_vertical"
                     android:textColor="@android:color/black"
-                    android:textSize="24sp"
+                    android:textSize="14sp"
                     tools:text="Coffeebreak" />
 
                 <TextView
@@ -202,7 +202,7 @@
                     android:fontFamily="@font/product_sans_bold"
                     android:gravity="center"
                     android:textColor="@color/colorAccent"
-                    android:textSize="18sp"
+                    android:textSize="11sp"
                     tools:text="Starbucks, 17 Ocean Blvd" />
 
 
@@ -229,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textColor="@color/colorSecondary"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="05-15" />
 
                     <TextView
@@ -239,7 +239,7 @@
                         android:fontFamily="@font/product_sans_bold"
                         android:gravity="center"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="Appointment Name" />
 
                     <TextView
@@ -248,7 +248,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="14 20" />
 
                 </LinearLayout>
@@ -267,7 +267,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="05-15" />
 
                     <TextView
@@ -277,7 +277,7 @@
                         android:fontFamily="@font/product_sans_bold"
                         android:gravity="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="Appointment name" />
 
                     <TextView
@@ -286,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
+                        android:textSize="11sp"
                         tools:text="16 30" />
 
                 </LinearLayout>
