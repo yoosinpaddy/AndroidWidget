@@ -29,6 +29,10 @@ public class SharedPrefsManager {
         return mInstance;
     }
 
+    public void savePref(String prefs_key, int colorInt) {
+        sharedPreferences.edit().putInt(prefs_key, colorInt).apply();
+    }
+
     public void savePref(String prefs_key, String selectedDateFormat) {
         sharedPreferences.edit().putString(prefs_key, selectedDateFormat).apply();
     }
@@ -37,15 +41,15 @@ public class SharedPrefsManager {
         sharedPreferences.edit().putFloat(prefs_key, fontSize).apply();
     }
 
-    public int getIntPref(String keyFontColor) {
-        return sharedPreferences.getInt(keyFontColor, 0);
+    public int getIntPref(String PREFS_KEY) {
+        return sharedPreferences.getInt(PREFS_KEY, -12411905);
     }
 
-    public String getStringPref(String keyFontColor) {
-        return sharedPreferences.getString(keyFontColor, "");
+    public String getStringPref(String PREFS_KEY) {
+        return sharedPreferences.getString(PREFS_KEY, "");
     }
 
-    public float getFloatPref(String keyFontSize) {
-        return sharedPreferences.getFloat(KEY_FONT_SIZE, 11.0f);
+    public float getFloatPref(String PREFS_KEY) {
+        return sharedPreferences.getFloat(PREFS_KEY, 11.0f);
     }
 }
