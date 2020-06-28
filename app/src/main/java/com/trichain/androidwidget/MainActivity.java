@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[] timeFormats = new String[]{"12h", "24h"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setSingleChoiceItems(timeFormats, 0, (dialog, which) -> {
+        builder.setSingleChoiceItems(timeFormats, -1, (dialog, which) -> {
             selectedTimeFormat = timeFormats[which];
             tvTimeFormat.setText(selectedTimeFormat);
 
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[] dateFormats = new String[]{"MM/DD/YY", "DD/MM/YY"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setSingleChoiceItems(dateFormats, 0, (dialog, which) -> {
+        builder.setSingleChoiceItems(dateFormats, -1, (dialog, which) -> {
             selectedDateFormat = dateFormats[which];
             tvDateFormat.setText(selectedDateFormat);
 
