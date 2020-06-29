@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/colorTransparent"
     android:orientation="vertical"
     android:padding="@dimen/widget_margin"
     android:weightSum="3">
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
+        android:background="@color/colorTransparent"
         android:indeterminateTint="@color/colorSecondary" />
 
     <LinearLayout
@@ -20,6 +21,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:background="@color/colorTransparent"
         android:weightSum="3">
 
         <LinearLayout
@@ -93,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:background="@color/colorTransparent"
         android:orientation="horizontal"
         android:weightSum="3">
 

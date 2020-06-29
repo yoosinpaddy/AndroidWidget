@@ -19,17 +19,25 @@ import android.provider.CalendarContract;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.trichain.androidwidget.room.config.DatabaseClient;
 import com.trichain.androidwidget.room.tables.AlarmTable;
+import com.trichain.androidwidget.util.SharedPrefsManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_APPOINTMENT_COLOR;
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_DATE_COLOR;
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_FONT_COLOR;
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_FONT_SIZE;
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_LOCATION_COLOR;
+import static com.trichain.androidwidget.util.SharedPrefsManager.KEY_TIME_COLOR;
 import static com.trichain.androidwidget.util.Util.doubleToDate;
 import static com.trichain.androidwidget.util.Util.getCurrentTimeHHMM;
 import static com.trichain.androidwidget.util.Util.getCustomDateYMD;
@@ -52,14 +60,16 @@ public class MainWidget extends AppWidgetProvider {
     static AppWidgetManager appWidgetManager1;
     static int appWidgetId1;
     static Intent alarmClockIntent;
+
+    static SharedPrefsManager mPref;
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         appWidgetManager1=appWidgetManager;
         appWidgetId1=appWidgetId;
         CharSequence widgetText = context.getString(R.string.appwidget_text);
+        mPref=SharedPrefsManager.getInstance(context);
         // Construct the RemoteViews object
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget_new_new);
-        setUpSettings(context);
         setupBlue(context);
         setupGreen(context);
         setupUpcomingAppointments(context);
@@ -68,6 +78,8 @@ public class MainWidget extends AppWidgetProvider {
         OtherAppointment1(context);
         OtherAppointment2(context);
         launchCalendar(context);
+        setUpSettings();
+
 
         remoteViews.setViewVisibility(R.id.progressBar, View.GONE);
         Log.e(TAG, "onUpdate: data updated");
@@ -77,7 +89,60 @@ public class MainWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 
-    private static void setUpSettings(Context context) {
+    private static void setUpSettings() {
+        if (mPref.getIntPref(KEY_FONT_COLOR)!=-12411905){
+            remoteViews.setTextColor(R.id.todayEvents,mPref.getIntPref(KEY_FONT_COLOR));
+            remoteViews.setTextColor(R.id.tvCurrentTime,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.timeZone,mPref.getIntPref(KEY_FONT_COLOR));
+            remoteViews.setTextColor(R.id.tvAlarm,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.dateGreenTv,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.weekGreen,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.appointmentDate,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.startUpcoming,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.endUpcoming,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.nameUpcomming,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
+            remoteViews.setTextColor(R.id.tvUpcomingAppointmentlocation,mPref.getIntPref(KEY_LOCATION_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt2Date,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt2Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt2Time,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt3Date,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt3Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt3Time,mPref.getIntPref(KEY_TIME_COLOR));
+
+        }
+        remoteViews.setTextViewTextSize(R.id.todayEvents, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvCurrentTime, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.timeZone, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvAlarm, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.dateGreenTv, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.weekGreen, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.appointmentDate, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.todayEvents, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.endUpcoming, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.nameUpcomming, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvUpcomingAppointmentlocation, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvAppt2Date, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvAppt2Title, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvAppt2Time, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvAppt3Date, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvAppt3Title, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
+
+        remoteViews.setTextViewTextSize(R.id.tvAppt3Time, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
     }
 
     static void launchCalendar(Context c)
@@ -262,7 +327,7 @@ launchAlarm(context);
     static Runnable n= new Runnable() {
         @Override
         public void run() {
-
+            setUpSettings();
             Log.e(TAG, "Looping: out" );
             if (!thisTime.contentEquals(getCurrentTimeHHMM().toString())){
                 Log.e(TAG, "Looping: in" );
