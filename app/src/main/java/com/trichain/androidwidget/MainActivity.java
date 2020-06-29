@@ -1,7 +1,11 @@
 package com.trichain.androidwidget;
 
 import android.Manifest;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,7 +47,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPrefsManager = SharedPrefsManager.getInstance(this);
 
         initUI();
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, MainWidget.class);
+                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                sendBroadcast(intent);
+                new Handler().postDelayed(this,1000);
+            }
+        }, 1000);
     }
 
     private void initUI() {

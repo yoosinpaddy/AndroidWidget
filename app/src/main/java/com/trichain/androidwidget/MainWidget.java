@@ -70,7 +70,6 @@ public class MainWidget extends AppWidgetProvider {
         mPref=SharedPrefsManager.getInstance(context);
         // Construct the RemoteViews object
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_widget_new_new);
-        setUpSettings();
         setupBlue(context);
         setupGreen(context);
         setupUpcomingAppointments(context);
@@ -79,6 +78,8 @@ public class MainWidget extends AppWidgetProvider {
         OtherAppointment1(context);
         OtherAppointment2(context);
         launchCalendar(context);
+        setUpSettings();
+
 
         remoteViews.setViewVisibility(R.id.progressBar, View.GONE);
         Log.e(TAG, "onUpdate: data updated");
@@ -89,55 +90,58 @@ public class MainWidget extends AppWidgetProvider {
     }
 
     private static void setUpSettings() {
-        remoteViews.setTextColor(R.id.todayEvents,mPref.getIntPref(KEY_FONT_COLOR));
+        if (mPref.getIntPref(KEY_FONT_COLOR)!=-12411905){
+            remoteViews.setTextColor(R.id.todayEvents,mPref.getIntPref(KEY_FONT_COLOR));
+            remoteViews.setTextColor(R.id.tvCurrentTime,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.timeZone,mPref.getIntPref(KEY_FONT_COLOR));
+            remoteViews.setTextColor(R.id.tvAlarm,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.dateGreenTv,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.weekGreen,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.appointmentDate,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.startUpcoming,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.endUpcoming,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.nameUpcomming,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
+            remoteViews.setTextColor(R.id.tvUpcomingAppointmentlocation,mPref.getIntPref(KEY_LOCATION_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt2Date,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt2Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt2Time,mPref.getIntPref(KEY_TIME_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt3Date,mPref.getIntPref(KEY_DATE_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt3Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
+            remoteViews.setTextColor(R.id.tvAppt3Time,mPref.getIntPref(KEY_TIME_COLOR));
+
+        }
         remoteViews.setTextViewTextSize(R.id.todayEvents, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
-        
-        remoteViews.setTextColor(R.id.tvCurrentTime,mPref.getIntPref(KEY_TIME_COLOR));
+
         remoteViews.setTextViewTextSize(R.id.tvCurrentTime, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.timeZone,mPref.getIntPref(KEY_FONT_COLOR));
         remoteViews.setTextViewTextSize(R.id.timeZone, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAlarm,mPref.getIntPref(KEY_TIME_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAlarm, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.dateGreenTv,mPref.getIntPref(KEY_DATE_COLOR));
         remoteViews.setTextViewTextSize(R.id.dateGreenTv, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.weekGreen,mPref.getIntPref(KEY_DATE_COLOR));
         remoteViews.setTextViewTextSize(R.id.weekGreen, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.appointmentDate,mPref.getIntPref(KEY_DATE_COLOR));
         remoteViews.setTextViewTextSize(R.id.appointmentDate, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.startUpcoming,mPref.getIntPref(KEY_TIME_COLOR));
         remoteViews.setTextViewTextSize(R.id.todayEvents, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.endUpcoming,mPref.getIntPref(KEY_TIME_COLOR));
         remoteViews.setTextViewTextSize(R.id.endUpcoming, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.nameUpcomming,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
         remoteViews.setTextViewTextSize(R.id.nameUpcomming, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvUpcomingAppointmentlocation,mPref.getIntPref(KEY_LOCATION_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvUpcomingAppointmentlocation, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt2Date,mPref.getIntPref(KEY_DATE_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt2Date, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt2Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt2Title, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt2Time,mPref.getIntPref(KEY_TIME_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt2Time, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt3Date,mPref.getIntPref(KEY_DATE_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt3Date, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt3Title,mPref.getIntPref(KEY_APPOINTMENT_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt3Title, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
 
-        remoteViews.setTextColor(R.id.tvAppt3Time,mPref.getIntPref(KEY_TIME_COLOR));
         remoteViews.setTextViewTextSize(R.id.tvAppt3Time, TypedValue.COMPLEX_UNIT_SP,mPref.getFloatPref(KEY_FONT_SIZE));
     }
 
